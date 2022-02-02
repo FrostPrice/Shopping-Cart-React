@@ -7,7 +7,6 @@ import reportWebVitals from "./reportWebVitals";
 import { configureStore } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
 import userReducer from "./Features/user.js";
-import shoppingCartReducer from "./Features/shoppingCart";
 
 /////////////////////////////////////////////////////
 //// Create a Shopping cart, and save the itens on the cart at a Server (JSON-server)
@@ -16,7 +15,7 @@ import shoppingCartReducer from "./Features/shoppingCart";
 /////////////////////////////////////////////////////
 
 const store = configureStore({
-  reducer: { user: userReducer, shoppingCart: shoppingCartReducer },
+  reducer: { user: userReducer },
 });
 
 ReactDOM.render(

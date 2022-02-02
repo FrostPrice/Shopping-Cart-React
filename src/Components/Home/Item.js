@@ -4,22 +4,22 @@ import { ReactComponent as IconX } from "../../SVG/X-Icon.svg";
 import { ReactComponent as IconMinus } from "../../SVG/Minus-Icon.svg";
 import { ReactComponent as IconPlus } from "../../SVG/Plus-Icon.svg";
 
-function Item() {
+function Item({ name, quantity, price }) {
   return (
     <div className="item">
       <div className="item--name">
         <div className="square"></div>
         <div>
-          <p>Product</p>
-          <span className="unit">1 un.</span>
+          <p>{name}</p>
+          <span className="unit">1un</span>
         </div>
       </div>
-      <div className="item--price">$3.80</div>
+      <div className="item--price">${parseFloat(price).toFixed(2)}</div>
       <div className="item--quantity">
         <button className="grey_btn btn--decrease-value">
           <IconMinus />
         </button>
-        <p className="quantity">2</p>
+        <p className="quantity">{quantity}</p>
         <button className="grey_btn btn--increase-value">
           <IconPlus />
         </button>

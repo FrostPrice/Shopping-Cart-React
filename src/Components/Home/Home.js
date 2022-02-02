@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import "../../Styles/Home/home.css";
 import { ReactComponent as IconSort } from "../../SVG/Sort-Icon.svg";
@@ -8,23 +8,43 @@ import Header from "./Header";
 import AddItem from "./AddItem";
 import Item from "./Item";
 
+// Need to fix this part (UseEffect throws ESLINT error, if the 2 values are inside Home)
+const id = localStorage.getItem("id");
+const token = localStorage.getItem("token");
+//
+
 function Home() {
   const [boolAddItem, setBoolAddItem] = useState(false);
+  const [itemsInCart, setItemsInCart] = useState([]);
 
-  const test = async () => {
-    const res = await fetch(" http://localhost:5000/users/1", {
+  useEffect(() => {
+    const getUserItem = async () => {
+      const dataFromServer = await fetchUserItems();
+      setItemsInCart(dataFromServer);
+    };
+
+    getUserItem();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const fetchUserItems = async () => {
+    const URL = `http://localhost:5000/600/users/${id}/itemsInCart`;
+    const FETCH_OBJ_CONFIG = {
       method: "GET",
-      headers: { "Content-Type": "application/json" },
-    });
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
 
-    const data = await res.json();
-    console.log(data.itemsInCart);
+    const fetchUserItems = await fetch(URL, FETCH_OBJ_CONFIG);
+    const data = await fetchUserItems.json();
+    setItemsInCart(data);
+    return data;
   };
 
   return (
     <div className="home--container">
-      <button onClick={() => test()}>Fetch data</button>
-
       <Header />
       <main>
         <div>
@@ -39,7 +59,14 @@ function Home() {
           </button>
         </div>
 
-        {boolAddItem ? <AddItem setBoolAddItem={setBoolAddItem} /> : ""}
+        {boolAddItem ? (
+          <AddItem
+            setBoolAddItem={setBoolAddItem}
+            cartItems={{ itemsInCart, setItemsInCart }}
+          />
+        ) : (
+          ""
+        )}
 
         <section className="section--items_lists">
           <div className="item--classification">
@@ -56,8 +83,14 @@ function Home() {
           </div>
 
           <section className="products_on_list">
-            {/* Testing CSS */}
-            <Item />
+            {itemsInCart.map((item) => (
+              <Item
+                key={item.id}
+                name={item.name}
+                quantity={item.quantity}
+                price={item.price}
+              />
+            ))}
           </section>
         </section>
       </main>

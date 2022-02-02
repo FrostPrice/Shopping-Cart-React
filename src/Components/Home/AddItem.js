@@ -1,19 +1,39 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
 
 import { ReactComponent as IconX } from "../../SVG/X-Icon.svg";
 import { ReactComponent as IconPlus } from "../../SVG/Plus-Icon.svg";
 import "../../Styles/Home/addItem.css";
 
-import { addItem } from "../../Features/shoppingCart";
+function AddItem({
+  setBoolAddItem,
+  cartItems: { itemsInCart, setItemsInCart },
+}) {
+  const id = localStorage.getItem("id");
+  const token = localStorage.getItem("token");
 
-function AddItem({ setBoolAddItem }) {
-  const dispatch = useDispatch();
   const [newItemInfo, setNewItemInfo] = useState({
+    userId: 0,
     name: "",
-    quantity: "",
+    quantity: 0,
     price: 0,
   });
+
+  const addItemServer = async (data) => {
+    setNewItemInfo({ ...data, userId: id });
+    const URL = `http://localhost:5000/600/users/${id}/itemsInCart`;
+    const FETCH_OBJ_CONFIG = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(data),
+    };
+
+    const res = await fetch(URL, FETCH_OBJ_CONFIG);
+    const dataFromServer = await res.json();
+    setItemsInCart([...itemsInCart, dataFromServer]);
+  };
 
   return (
     <section className="section--add_new_item">
@@ -37,26 +57,39 @@ function AddItem({ setBoolAddItem }) {
           onChange={(event) =>
             setNewItemInfo({ ...newItemInfo, name: event.target.value })
           }
+          required
         />
         <input
           className="add_new_item--input quantity--input"
-          type="text"
-          placeholder="e.g: 1un, 12un"
+          type="number"
+          placeholder="e.g: 1, 12"
           onChange={(event) =>
             setNewItemInfo({ ...newItemInfo, quantity: event.target.value })
           }
+          required
         />
         <input
           className="add_new_item--input price--input"
-          type="text"
+          type="number"
           placeholder="e.g: $4.00, $10.99"
           onChange={(event) =>
             setNewItemInfo({ ...newItemInfo, price: event.target.value })
           }
+          required
         />
         <button
           className="add_new_item--btn black_btn cursor-pointer"
-          onClick={() => dispatch(addItem(newItemInfo))}
+          onClick={(event) => {
+            if (
+              !newItemInfo.name ||
+              !newItemInfo.quantity ||
+              !newItemInfo.price
+            )
+              return;
+            event.preventDefault();
+            addItemServer(newItemInfo);
+            setBoolAddItem(false);
+          }}
         >
           <IconPlus />
           <p>Add Item</p>

@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const INITIAL_STATE = {
+  id: 0,
   username: "",
   email: "",
   password: "",
@@ -16,16 +17,11 @@ const userSlice = createSlice({
       state.value = action.payload;
       state.value.isLogged = true;
       localStorage.setItem("token", state.value.accessToken);
+      localStorage.setItem("id", state.value.id);
       localStorage.setItem("username", state.value.username);
     },
     logout(state) {
-      state.value = {
-        username: "",
-        email: "",
-        password: "",
-        isLogged: false,
-        accessToken: "",
-      };
+      state.value = INITIAL_STATE;
       localStorage.clear();
     },
     keepLogged(state) {
@@ -34,6 +30,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { login, logout, keepLogged } = userSlice.actions;
+export const { login, logout, keepLogged, addItem } = userSlice.actions;
 
 export default userSlice.reducer;

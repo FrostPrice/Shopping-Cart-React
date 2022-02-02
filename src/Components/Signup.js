@@ -12,7 +12,7 @@ function Signup() {
   const [userData, setUserData] = useState(user);
 
   const registerUser = async () => {
-    const url = "http://localhost:5000/register";
+    const URL = "http://localhost:5000/register";
     const FETCH_OBJ_CONFIG = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -20,19 +20,22 @@ function Signup() {
         username: userData.username,
         email: userData.email,
         password: userData.password,
+        itemsInCart: userData.itemsInCart,
       }),
     };
 
-    const res = await fetch(url, FETCH_OBJ_CONFIG);
+    const res = await fetch(URL, FETCH_OBJ_CONFIG);
     if (res.ok === true) {
       const data = await res.json();
       dispatch(
         login({
-          ...user,
           username: userData.username,
           email: userData.email,
           password: userData.password,
+          itemsInCart: userData.itemsInCart,
+
           accessToken: data.accessToken,
+          id: data.user.id,
         })
       );
       navigate("/");
@@ -59,7 +62,10 @@ function Signup() {
           type="email"
           placeholder="E-mail"
           onChange={(event) =>
-            setUserData({ ...userData, email: event.target.value })
+            setUserData({
+              ...userData,
+              email: event.target.value.toLowerCase(),
+            })
           }
           required
         />

@@ -13,7 +13,7 @@ function Login() {
   const [userData, setUserData] = useState(user);
 
   const loginUser = async () => {
-    const url = "http://localhost:5000/login";
+    const URL = "http://localhost:5000/login";
     const FETCH_OBJ_CONFIG = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -23,16 +23,19 @@ function Login() {
       }),
     };
 
-    const res = await fetch(url, FETCH_OBJ_CONFIG);
+    const res = await fetch(URL, FETCH_OBJ_CONFIG);
     if (res.ok === true) {
       const data = await res.json();
       dispatch(
         login({
-          ...user,
           email: userData.email,
           password: userData.password,
-          username: data.user.username,
+          itemsInCart: userData.itemsInCart,
+
           accessToken: data.accessToken,
+
+          id: data.user.id,
+          username: data.user.username,
         })
       );
       navigate("/");

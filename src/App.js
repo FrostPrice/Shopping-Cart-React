@@ -13,6 +13,7 @@ function App() {
   const dispatch = useDispatch();
 
   const token = localStorage.getItem("token");
+
   if (token) {
     dispatch(keepLogged());
   }
