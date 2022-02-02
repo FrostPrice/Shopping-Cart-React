@@ -1,0 +1,59 @@
+/* SECTION - Add New Item */
+
+.section--add_new_item {
+  display: flex;
+  flex-direction: column;
+
+  padding: 0 0 64px 0;
+}
+
+.add_new_item--header {
+  display: flex;
+  align-items: center;
+  padding: 0 0 16px 0;
+}
+
+.add_new_item--tittle {
+  font-size: 1.4rem;
+  font-weight: 500;
+  padding: 0 25px 0 0;
+}
+
+.close-new-item_btn > svg {
+  width: 1.3em;
+}
+
+.add_new_item--inputs {
+  display: grid;
+  grid-template-columns: repeat(3, auto) 0.4fr;
+  column-gap: 40px;
+}
+
+.add_new_item--input {
+  height: 38px;
+  padding: 0 0 0 16px;
+  border-radius: 8px;
+  border: 1px solid #a3a3a3;
+
+  grid-row: 2;
+}
+
+.add_new_item--description {
+  font-size: 1rem;
+  color: rgb(37, 37, 37);
+  padding-bottom: 8px;
+}
+
+.add_new_item--btn {
+  grid-row: 2;
+  justify-self: center;
+  width: 100%;
+  max-width: 15rem;
+  border: none;
+
+  cursor: pointer;
+}
+
+.add_new_item--btn > svg > path {
+  fill: white;
+}
