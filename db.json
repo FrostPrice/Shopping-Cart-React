@@ -5,15 +5,28 @@
       "password": "$2a$10$7kFFnN8XHsRGGLmRxSkwfOi7WkW5vqJgZcrD7NB2VccGqip8wiLSC",
       "username": "Test",
       "id": 1
+    },
+    {
+      "email": "kdaljdlsak@dasjd",
+      "password": "$2a$10$r.5.bw7rQOATVelWiQWWP.xPeKYi4gEA.laHxRA7pJj07qpqwRiZu",
+      "username": "dasjj",
+      "id": 2
     }
   ],
   "itemsInCart": [
     {
       "userId": "1",
       "name": "Banana",
-      "quantity": "1",
-      "price": "4",
+      "quantity": 3,
+      "price": "4.00",
       "id": 1
+    },
+    {
+      "userId": "1",
+      "name": "Apples",
+      "quantity": "12.00",
+      "price": "10.99",
+      "id": 2
     }
   ]
 }

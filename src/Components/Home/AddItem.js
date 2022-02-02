@@ -64,7 +64,10 @@ function AddItem({
           type="number"
           placeholder="e.g: 1, 12"
           onChange={(event) =>
-            setNewItemInfo({ ...newItemInfo, quantity: event.target.value })
+            setNewItemInfo({
+              ...newItemInfo,
+              quantity: event.target.value,
+            })
           }
           required
         />
@@ -73,7 +76,10 @@ function AddItem({
           type="number"
           placeholder="e.g: $4.00, $10.99"
           onChange={(event) =>
-            setNewItemInfo({ ...newItemInfo, price: event.target.value })
+            setNewItemInfo({
+              ...newItemInfo,
+              price: event.target.value,
+            })
           }
           required
         />
