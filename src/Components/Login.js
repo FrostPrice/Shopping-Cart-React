@@ -40,7 +40,7 @@ function Login() {
       );
       navigate("/");
     } else {
-      console.error("Error: Something went wrong :(");
+      alert("Something went wrong :( \nPlease try again!");
     }
   };
 

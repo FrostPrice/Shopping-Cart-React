@@ -7,7 +7,7 @@ import { logout } from "../../Features/user";
 
 function Header() {
   const dispatch = useDispatch();
-  const name = localStorage.getItem("username");
+  const name = sessionStorage.getItem("username");
 
   return (
     <header className="header--home-page">

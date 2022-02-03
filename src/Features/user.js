@@ -16,13 +16,13 @@ const userSlice = createSlice({
     login(state, action) {
       state.value = action.payload;
       state.value.isLogged = true;
-      localStorage.setItem("token", state.value.accessToken);
-      localStorage.setItem("id", state.value.id);
-      localStorage.setItem("username", state.value.username);
+      sessionStorage.setItem("token", state.value.accessToken);
+      sessionStorage.setItem("id", state.value.id);
+      sessionStorage.setItem("username", state.value.username);
     },
     logout(state) {
       state.value = INITIAL_STATE;
-      localStorage.clear();
+      sessionStorage.clear();
     },
     keepLogged(state) {
       state.value.isLogged = true;

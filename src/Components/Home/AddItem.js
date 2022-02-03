@@ -8,8 +8,8 @@ function AddItem({
   setBoolAddItem,
   cartItems: { itemsInCart, setItemsInCart },
 }) {
-  const id = localStorage.getItem("id");
-  const token = localStorage.getItem("token");
+  const id = sessionStorage.getItem("id");
+  const token = sessionStorage.getItem("token");
 
   const [newItemInfo, setNewItemInfo] = useState({
     userId: 0,

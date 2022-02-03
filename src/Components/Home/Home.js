@@ -9,24 +9,22 @@ import AddItem from "./AddItem";
 import Item from "./Item";
 import Footer from "./Footer";
 
-// Need to fix this part (UseEffect throws ESLINT error, if the 2 values are inside Home)
-const userId = localStorage.getItem("id");
-const token = localStorage.getItem("token");
-//
-
 function Home() {
+  const userId = sessionStorage.getItem("id");
+  const token = sessionStorage.getItem("token");
+
   const [boolAddItem, setBoolAddItem] = useState(false);
   const [itemsInCart, setItemsInCart] = useState([]);
   const [total, setTotal] = useState(0);
 
   useEffect(() => {
     const getUserItem = async () => {
-      const dataFromServer = await fetchUserItems(userId, token);
+      const dataFromServer = await fetchUserItems(userId);
       setItemsInCart(dataFromServer);
     };
 
     getUserItem();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    calculateTotal();
   }, []);
 
   const sendItemToServer = async (id, state) => {
@@ -45,9 +43,10 @@ function Home() {
     setItemsInCart(
       itemsInCart.map((item) => (item.id === id ? { ...data } : item))
     );
+    calculateTotal();
   };
 
-  const fetchUserItems = async (userId, token) => {
+  const fetchUserItems = async (userId) => {
     const URL = `http://localhost:5000/600/users/${userId}/itemsInCart`;
     const FETCH_OBJ_CONFIG = {
       method: "GET",
@@ -59,7 +58,7 @@ function Home() {
 
     const fetchUserItems = await fetch(URL, FETCH_OBJ_CONFIG);
     const data = await fetchUserItems.json();
-    setItemsInCart(data);
+    setItemsInCart([...data]);
     return data;
   };
 
@@ -90,8 +89,8 @@ function Home() {
     setItemsInCart(itemsInCart.filter((item) => item.id !== id));
   };
 
-  const calculateTotal = async (userId, token) => {
-    const items = await fetchUserItems(userId, token);
+  const calculateTotal = async () => {
+    const items = await fetchUserItems(userId);
     const allItemsTotal = items.map((item) => {
       const itemTotal = item.price * item.quantity;
       return itemTotal.toFixed(2);
@@ -99,7 +98,8 @@ function Home() {
     const total = allItemsTotal.reduce((a, b) => {
       return (a = Number(a) + Number(b));
     }, 0);
-    setTotal(total);
+
+    setTotal(parseFloat(total).toFixed(2));
   };
 
   return (
@@ -158,7 +158,7 @@ function Home() {
         </section>
       </main>
 
-      <Footer />
+      <Footer total={total} />
     </div>
   );
 }
